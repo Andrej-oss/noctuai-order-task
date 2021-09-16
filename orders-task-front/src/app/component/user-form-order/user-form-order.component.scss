@@ -1,0 +1,14 @@
+.card-auth{
+  max-width: 40%;
+  padding: 10%;
+  left: 25%;
+  margin: 2%;
+  box-shadow: 0 0 5px;
+
+}
+@media only screen and (max-width: 600px) {
+  .card-auth {
+    min-width: 70%;
+    left: 10%;
+  }
+}
