@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { colors } from 'src/app/constants/colors';
+import {UserOrder} from "../../model/UserOrder";
+import {UserTableOrderComponent} from "../user-table-order/user-table-order.component";
 
 @Component({
   selector: 'app-user-form-order',
@@ -14,6 +16,8 @@ export class UserFormOrderComponent implements OnInit {
   color: FormControl;
   colors: {type: string, value: string}[] = [];
   size: FormControl;
+  isTable: boolean = false;
+  order: UserOrder | undefined;
 
   constructor() {
     this.userOrder = new FormGroup({
@@ -29,7 +33,18 @@ export class UserFormOrderComponent implements OnInit {
   }
 
   onSaveInTable(userOrder: FormGroup): void{
-    console.log(userOrder);
+    this.order = {
+      name: userOrder.get('userName')!.value,
+      age: +userOrder.get('userAge')!.value,
+      size: userOrder.get('size')!.value,
+      color: userOrder.get('color')!.value,
+      date: new Date(),
+      count: 1
+    }
     this.userOrder.reset();
+  }
+
+  onShowTable(): void{
+    this.isTable = !this.isTable;
   }
 }
