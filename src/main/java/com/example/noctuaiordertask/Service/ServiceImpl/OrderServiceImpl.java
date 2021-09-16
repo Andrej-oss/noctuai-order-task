@@ -42,4 +42,11 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(long id) {
 
     }
+
+    @Override
+    public boolean saveAllOrders(List<Orders> orders) {
+        //orders.parallelStream().forEach(orderDao::sa);
+        orderDao.saveAllAndFlush(orders);
+        return true;
+    }
 }

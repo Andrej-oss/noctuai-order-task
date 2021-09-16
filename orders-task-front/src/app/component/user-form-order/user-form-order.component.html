@@ -15,6 +15,7 @@
                 Your age
             </mat-label>
             <input matInput
+                   type="number"
                    [formControl]="userAge"
                    placeholder="age"
                    required>
@@ -24,12 +25,12 @@
                 Choose size
             </mat-label>
         </p>
-            <mat-radio-group aria-label="Select an option" [formControl]="size">
-                <mat-radio-button value="S">S</mat-radio-button>
-                <mat-radio-button value="M">M</mat-radio-button>
-                <mat-radio-button value="L">L</mat-radio-button>
-                <mat-radio-button value="XL">XL</mat-radio-button>
-            </mat-radio-group>
+        <mat-radio-group aria-label="Select an option" [formControl]="size">
+            <mat-radio-button value="S">S</mat-radio-button>
+            <mat-radio-button value="M">M</mat-radio-button>
+            <mat-radio-button value="L">L</mat-radio-button>
+            <mat-radio-button value="XL">XL</mat-radio-button>
+        </mat-radio-group>
         <mat-form-field appearance="fill">
             <mat-label>Colors</mat-label>
             <mat-select [formControl]="color">
@@ -37,14 +38,44 @@
             </mat-select>
         </mat-form-field>
         <div>
-            <button mat-button [disabled]="userOrder.invalid"
+            <button mat-button
+                    [disabled]="size.invalid && color.invalid || size.untouched || color.untouched"
                     (click)="onSaveInTable(userOrder)">
                 Save
             </button>
+            <button mat-button
+            [disabled]=" userName.invalid && userAge.invalid || userName.untouched && userAge.untouched"
+                    (click)="onSaveInDataBase(userOrder)">
+                Send
+            </button>
+            <p *ngIf="errorMessage" style="color: red">
+                {{errorMessage}}
+            </p>
         </div>
     </form>
     <button mat-button (click)="onShowTable()">show users orders</button>
+    <div *ngIf="usersPreOrders.length > 0 && !!preOrder">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="No">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                <td mat-cell *matCellDef="let element, let i = index"> {{i + 1}} </td>
+            </ng-container>
+            <ng-container matColumnDef="size">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Size </th>
+                <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+            </ng-container>
+            <ng-container matColumnDef="color">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+                <td mat-cell *matCellDef="let element"> {{element.color}} </td>
+            </ng-container>
+            <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+                <td mat-cell *matCellDef="let element">{{element.count}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="usersTabOrders"></tr>
+            <tr mat-row *matRowDef="let row; columns: usersTabOrders;"></tr>
+        </table>
+
+    </div>
 </mat-card>
-<div *ngIf="isTable">
-    <app-user-table-order [userOrder]="order"></app-user-table-order>
-</div>
+

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(value = "http://localhost:4200/")
 public class OrderController {
 
     private OrderService orderService;
@@ -26,6 +27,11 @@ public class OrderController {
     @PostMapping("/order")
     public void saveOrder(@Valid @RequestBody Orders order){
         orderService.saveOrder(order);
+    }
+
+    @PostMapping("/order/all")
+    public boolean saveAllOrders(@RequestBody List<Orders> orders){
+        return orderService.saveAllOrders(orders);
     }
     @PutMapping("/order/{id}")
     public boolean updateOrder(@RequestBody Orders order, @PathVariable long id){

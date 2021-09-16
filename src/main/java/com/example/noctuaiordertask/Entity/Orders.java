@@ -39,4 +39,7 @@ public class Orders {
     @Positive
     private  int count;
 
+    @Positive
+    private long date;
+
 }

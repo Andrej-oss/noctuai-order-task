@@ -4,6 +4,6 @@ export interface UserOrder{
     age: number;
     size: string;
     color: string;
-    date?: Date;
+    date?: number;
     count: number;
 }

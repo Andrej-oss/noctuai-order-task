@@ -11,4 +11,6 @@ public interface OrderService {
     void saveOrder(Orders order);
     boolean updateOrder(long id, Orders order);
     void deleteOrder(long id);
+
+    boolean saveAllOrders(List<Orders> orders);
 }
