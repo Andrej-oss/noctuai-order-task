@@ -11,12 +11,14 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MAT_RADIO_DEFAULT_OPTIONS} from "@angular/material/radio";
 import { UserFormOrderComponent } from './component/user-form-order/user-form-order.component';
 import { UserTableOrderComponent } from './component/user-table-order/user-table-order.component';
+import { OrderDetailComponent } from './component/order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserFormOrderComponent,
-    UserTableOrderComponent
+    UserTableOrderComponent,
+    OrderDetailComponent
   ],
   imports: [
     BrowserModule,
