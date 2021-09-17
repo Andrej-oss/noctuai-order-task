@@ -28,11 +28,13 @@ export class UserFormOrderComponent implements OnInit {
   dataSource = new MatTableDataSource(this.usersPreOrders);
   usersOrders: UserOrder[] = [];
   errorMessage: string = '';
+  capitalLetterError: string = '';
+  notSingleWordError: string = '';
 
   constructor(private orderService: OrderDaoService) {
     this.userOrder = new FormGroup({
-      userName: this.userName = new FormControl('', [Validators.required]),
-      userAge: this.userAge = new FormControl('', [Validators.required]),
+      userName: this.userName = new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z]+$')]),
+      userAge: this.userAge = new FormControl('', [Validators.required, Validators.min(18), Validators.max(100)]),
       size: this.size = new FormControl('', [Validators.required]),
       color: this.color = new FormControl('', [Validators.required])
     })
@@ -43,14 +45,6 @@ export class UserFormOrderComponent implements OnInit {
   }
 
   onSaveInTable(userOrder: FormGroup): void{
-    // this.order = {
-    //   name: userOrder.get('userName')!.value,
-    //   age: +userOrder.get('userAge')!.value,
-    //   size: userOrder.get('size')!.value,
-    //   color: userOrder.get('color')!.value,
-    //   date: new Date(),
-    //   count: 1
-    // }
     this.preOrder = {
       size: userOrder.get('size')!.value,
       color: userOrder.get('color')!.value,
@@ -67,7 +61,6 @@ export class UserFormOrderComponent implements OnInit {
     this.dataSource = new MatTableDataSource<PairOrder>(this.usersPreOrders);
      }
     this.userOrder.reset();
-    console.log(this.usersPreOrders);
   }
 
   onShowTable(): void{
@@ -75,9 +68,19 @@ export class UserFormOrderComponent implements OnInit {
   }
 
   onSaveInDataBase(userOrder: FormGroup): void{
+    const userName = userOrder.get('userName')!.value;
+    if (userName.split(' ').length > 1){
+      this.notSingleWordError = 'The name must be composed of a single word';
+      return;
+    } else if (!userName.match(/^[A-Z]/)){
+      this.capitalLetterError = 'Should start on capital letter';
+      return;
+    }
     this.userOrder.disable();
     if (this.usersPreOrders.length){
       this.errorMessage = '';
+      this.capitalLetterError = '';
+      this.notSingleWordError = '';
       const ordersArray = this.usersPreOrders.map(order => {
         return {
           name: userOrder.get('userName')!.value,
@@ -101,6 +104,8 @@ export class UserFormOrderComponent implements OnInit {
           });
     } else if (!this.usersPreOrders.length){
       this.errorMessage = 'Add some product. Your orders list not should be empty';
+      this.capitalLetterError = '';
+      this.notSingleWordError = '';
       this.userOrder.enable();
     }
   }

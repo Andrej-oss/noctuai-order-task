@@ -44,12 +44,29 @@
                 Save
             </button>
             <button mat-button
-            [disabled]=" userName.invalid && userAge.invalid || userName.untouched && userAge.untouched"
+                    [disabled]=" userName.invalid
+                    || userAge.invalid
+                    || userAge.untouched || userName.untouched"
                     (click)="onSaveInDataBase(userOrder)">
                 Send
             </button>
             <p *ngIf="errorMessage" style="color: red">
                 {{errorMessage}}
+            </p>
+            <p *ngIf="userOrder.get('userName')?.errors?.pattern" style="color: red">
+                Should be letters
+            </p>
+            <p *ngIf="userOrder.get('userAge')?.errors?.min" style="color: red">
+                Age restrictions. Too young!
+            </p>
+            <p *ngIf="userOrder.get('userAge')?.errors?.max" style="color: red">
+                Age restrictions. Too old!
+            </p>
+            <p *ngIf="capitalLetterError" style="color: red">
+                {{capitalLetterError}}
+            </p>
+            <p *ngIf="notSingleWordError" style="color: red">
+                {{notSingleWordError}}
             </p>
         </div>
     </form>
@@ -57,19 +74,19 @@
     <div *ngIf="usersPreOrders.length > 0 && !!preOrder">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="No">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No.</th>
                 <td mat-cell *matCellDef="let element, let i = index"> {{i + 1}} </td>
             </ng-container>
             <ng-container matColumnDef="size">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Size </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Size</th>
                 <td mat-cell *matCellDef="let element"> {{element.size}} </td>
             </ng-container>
             <ng-container matColumnDef="color">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Color</th>
                 <td mat-cell *matCellDef="let element"> {{element.color}} </td>
             </ng-container>
             <ng-container matColumnDef="count">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count</th>
                 <td mat-cell *matCellDef="let element">{{element.count}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="usersTabOrders"></tr>
