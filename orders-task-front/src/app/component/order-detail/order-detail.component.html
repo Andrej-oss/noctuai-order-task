@@ -4,6 +4,7 @@
     <p>color: {{data.color}}</p>
     <p>count: {{data.count}}</p>
 </div>
+<div [style]="onChooseStyleBox(data.color, data.size)"></div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Close</button>
 </div>

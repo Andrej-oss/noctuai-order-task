@@ -18,4 +18,17 @@ export class OrderDetailComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  onChooseStyleBox(color: string, size: string): string{
+    if (size === 'S') {
+      return `width: 25px; height: 25px; border: 1px solid black; background-color: ${color}`;
+    } else if (size === 'M') {
+      return `width: 50px; height: 50px; border: 1px solid black; background-color: ${color}`;
+    } else if (size === 'L') {
+      return `width: 75px; height: 75px; border: 1px solid black; background-color: ${color}`;        } else if (size === 'xl') {
+    } else if(size === 'XL') {
+      return `width: 100px; height: 100px; border: 1px solid black; background-color: ${color}`;        } else if (size === 'xl') {
+    }
+    return '';
+  }
 }

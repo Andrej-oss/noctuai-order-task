@@ -25,18 +25,27 @@
                 Choose size
             </mat-label>
         </p>
-        <mat-radio-group aria-label="Select an option" [formControl]="size">
-            <mat-radio-button value="S">S</mat-radio-button>
-            <mat-radio-button value="M">M</mat-radio-button>
-            <mat-radio-button value="L">L</mat-radio-button>
-            <mat-radio-button value="XL">XL</mat-radio-button>
+        <mat-radio-group
+                aria-label="Select an option"
+                [formControl]="size">
+            <mat-radio-button (click)="onChooseSize('s')" value="S">S</mat-radio-button>
+            <mat-radio-button (click)="onChooseSize('m')" value="M">M</mat-radio-button>
+            <mat-radio-button (click)="onChooseSize('l')" value="L">L</mat-radio-button>
+            <mat-radio-button (click)="onChooseSize('xl')" value="XL">XL</mat-radio-button>
         </mat-radio-group>
         <mat-form-field appearance="fill">
             <mat-label>Colors</mat-label>
             <mat-select [formControl]="color">
-                <mat-option *ngFor="let color of colors" [value]="color.value">{{color.type}}</mat-option>
+                <mat-option
+                        (click)="onChooseColor(color.value)"
+                        *ngFor="let color of colors"
+                        [value]="color.value">
+                    {{color.type}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
+        <div *ngIf="!!isChosenSize" [style]="styleBox">
+        </div>
         <div>
             <button mat-button
                     [disabled]="size.invalid && color.invalid || size.untouched || color.untouched"
@@ -78,16 +87,23 @@
                 <td mat-cell *matCellDef="let element, let i = index"> {{i + 1}} </td>
             </ng-container>
             <ng-container matColumnDef="size">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Size</th>
+                <th mat-header-cell *matHeaderCellDef> Size</th>
                 <td mat-cell *matCellDef="let element"> {{element.size}} </td>
             </ng-container>
             <ng-container matColumnDef="color">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Color</th>
+                <th mat-header-cell *matHeaderCellDef> Color</th>
                 <td mat-cell *matCellDef="let element"> {{element.color}} </td>
             </ng-container>
             <ng-container matColumnDef="count">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count</th>
+                <th mat-header-cell *matHeaderCellDef> Count</th>
                 <td mat-cell *matCellDef="let element">{{element.count}}</td>
+            </ng-container>
+            <ng-container matColumnDef="view">
+                <th mat-header-cell *matHeaderCellDef> View</th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <div [style]="chooseStyleBox(element.color, element.size)"></div>
+                </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="usersTabOrders"></tr>
             <tr mat-row *matRowDef="let row; columns: usersTabOrders;"></tr>
