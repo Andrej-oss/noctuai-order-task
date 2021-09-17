@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import  {routes} from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './component/app-page/app.component';
 import {MaterialModule} from "./module/material-module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -16,7 +16,7 @@ import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
-    AppComponent,
+     AppComponent,
     UserFormOrderComponent,
     UserTableOrderComponent,
     OrderDetailComponent

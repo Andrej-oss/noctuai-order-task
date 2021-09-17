@@ -20,7 +20,6 @@ export class UserFormOrderComponent implements OnInit {
     color: FormControl;
     colors: { type: string, value: string }[] = [];
     size: FormControl;
-    isTable: boolean = false;
     order: UserOrder | undefined;
     usersTabOrders: string[] = ['No', 'size', 'color', 'count', 'view'];
     usersPreOrders: PairOrder[] = [];
@@ -68,9 +67,6 @@ export class UserFormOrderComponent implements OnInit {
         this.styleBox = '';
     }
 
-    onShowTable(): void {
-        this.isTable = !this.isTable;
-    }
 
     onSaveInDataBase(userOrder: FormGroup): void {
         const userName = userOrder.get('userName')!.value;

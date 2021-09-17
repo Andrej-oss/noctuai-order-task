@@ -4,7 +4,6 @@ import {UserOrder} from "../../model/UserOrder";
 import {OrderDaoService} from "../../service/order-dao.service";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderDetailComponent} from "../order-detail/order-detail.component";
-import {Router} from "@angular/router";
 @Component({
   selector: 'app-user-table-order',
   templateUrl: './user-table-order.component.html',
@@ -15,7 +14,6 @@ export class UserTableOrderComponent implements AfterViewInit, OnChanges {
   usersOrders: UserOrder[] = [];
   dataSource = new MatTableDataSource(this.usersOrders);
   constructor(private orderService: OrderDaoService,
-              private router: Router,
               public dialog: MatDialog) {
   }
 
@@ -45,7 +43,4 @@ export class UserTableOrderComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  onMakeOrder(): void{
-    this.router.navigate(['/order']);
-  }
 }

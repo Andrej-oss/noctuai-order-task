@@ -79,8 +79,7 @@
             </p>
         </div>
     </form>
-    <button mat-button (click)="onShowTable()">show users orders</button>
-    <div *ngIf="usersPreOrders.length > 0 && !!preOrder">
+     <div *ngIf="usersPreOrders.length > 0 && !!preOrder">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="No">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> No.</th>
