@@ -33,7 +33,7 @@ export class UserFormOrderComponent implements OnInit {
 
   constructor(private orderService: OrderDaoService) {
     this.userOrder = new FormGroup({
-      userName: this.userName = new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z]+$')]),
+      userName: this.userName = new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]),
       userAge: this.userAge = new FormControl('', [Validators.required, Validators.min(18), Validators.max(100)]),
       size: this.size = new FormControl('', [Validators.required]),
       color: this.color = new FormControl('', [Validators.required])
