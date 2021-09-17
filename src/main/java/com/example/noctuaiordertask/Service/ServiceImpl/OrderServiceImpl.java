@@ -1,10 +1,13 @@
 package com.example.noctuaiordertask.Service.ServiceImpl;
 
 import com.example.noctuaiordertask.Entity.Orders;
+import com.example.noctuaiordertask.Entity.Stock;
 import com.example.noctuaiordertask.Repository.OrderDao;
+import com.example.noctuaiordertask.Repository.StockDao;
 import com.example.noctuaiordertask.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,9 +16,12 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDao;
 
+    private StockDao stockDao;
+
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao) {
+    public OrderServiceImpl(OrderDao orderDao, StockDao stockDao) {
         this.orderDao = orderDao;
+        this.stockDao = stockDao;
     }
 
     @Override
@@ -44,9 +50,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean saveAllOrders(List<Orders> orders) {
-        //orders.parallelStream().forEach(orderDao::sa);
-        orderDao.saveAllAndFlush(orders);
+        orders.parallelStream().forEach(order -> {
+            final Stock stock = stockDao.getStockByColorAndSize(order.getColor(), order.getSize());
+            assert stock != null;
+            stock.setCount(stock.getCount() - order.getCount());
+            stockDao.saveAndFlush(stock);
+            orderDao.saveAndFlush(order);
+        });
+//        orderDao.saveAllAndFlush(orders);
         return true;
     }
 }
