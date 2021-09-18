@@ -5,6 +5,7 @@ import com.example.noctuaiordertask.Entity.Stock;
 import com.example.noctuaiordertask.Repository.OrderDao;
 import com.example.noctuaiordertask.Repository.StockDao;
 import com.example.noctuaiordertask.Service.OrderService;
+import com.example.noctuaiordertask.exception.OutOfStockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,10 @@ public class OrderServiceImpl implements OrderService {
         orders.parallelStream().forEach(order -> {
             final Stock stock = stockDao.getStockByColorAndSize(order.getColor(), order.getSize());
             assert stock != null;
+            if (stock.getCount() - order.getCount() < 0) {
+                throw new OutOfStockException("there is not enough product quantity for your order.");
+
+            }
             stock.setCount(stock.getCount() - order.getCount());
             stockDao.saveAndFlush(stock);
             orderDao.saveAndFlush(order);

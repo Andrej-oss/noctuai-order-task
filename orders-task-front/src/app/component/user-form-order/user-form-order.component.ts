@@ -101,7 +101,8 @@ export class UserFormOrderComponent implements OnInit {
                     },
                     error => {
                         this.userOrder.enable();
-                        this.errorMessage = 'something was going wrong'
+                       error.message ? this.errorMessage = error.message
+                           : this.errorMessage = 'something was going wrong'
                     });
         } else if (!this.usersPreOrders.length) {
             this.errorMessage = 'Add some product. Your orders list not should be empty';
